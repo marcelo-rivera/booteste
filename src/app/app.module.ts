@@ -14,19 +14,30 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './navbar/navbar.component';
-import { EventosComponent } from './eventos/eventos.component';
+import { NavbarComponent } from './shared/navbar/navbar.component';
+import { EventosComponent } from './components/eventos/eventos.component';
+import { PalestrantesComponent } from './components/palestrantes/palestrantes.component';
+import { ContatosComponent } from './components/contatos/contatos.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { PerfilComponent } from './components/perfil/perfil.component';
 
 import { EventoService } from './services/evento.service';
 
 import { DateTimeFormatPipe } from './helpers/DateTimeFormat.pipe';
+import { TituloComponent } from './shared/titulo/titulo.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
       NavbarComponent,
       EventosComponent,
-      DateTimeFormatPipe
+      DateTimeFormatPipe,
+      PalestrantesComponent,
+      ContatosComponent,
+      DashboardComponent,
+      PerfilComponent,
+      TituloComponent
    ],
   imports: [
     BrowserModule,
@@ -44,7 +55,7 @@ import { DateTimeFormatPipe } from './helpers/DateTimeFormat.pipe';
       preventDuplicates: true,
       progressBar: true
     }),
-    NgxSpinnerModule.forRoot()
+    NgxSpinnerModule
   ],
   providers: [EventoService],   // injeção de dependencia, poderá ser usado em qquer modulo
   bootstrap: [AppComponent],
