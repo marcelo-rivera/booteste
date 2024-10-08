@@ -1,4 +1,6 @@
 import { Component, input, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-titulo',
@@ -12,9 +14,16 @@ export class TituloComponent implements OnInit {
   @Input() subtitulo: string = "Desde 2024";
   @Input() botaolistar: boolean = false;
 
-  constructor() { }
+  constructor(
+    private router: Router,
+    private toastr: ToastrService
+  ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
+  }
+
+  listar(): void {
+    this.router.navigate([`/${this.titulo.toLocaleLowerCase()}/lista`])
   }
 
 }

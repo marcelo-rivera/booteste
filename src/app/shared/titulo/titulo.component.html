@@ -6,8 +6,8 @@
       <small>{{subtitulo}}</small>
     </div>
   </div>
-  <div class="p-3">
-    <button class="btn btn-outline-light" *ngIf="botaolistar">
+  <div class="p-3" *ngIf="botaolistar">
+    <button class="btn btn-outline-light" (click)="listar()">
       Listar {{titulo}}
     </button>
   </div>
