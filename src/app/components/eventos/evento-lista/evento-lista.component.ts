@@ -19,6 +19,7 @@ export class EventoListaComponent {
 
   public eventos: Evento[] = [] ;
   public eventosFiltrados: Evento[] = [] ;
+  public eventoId: number = 0;
 
   public widthImg: number = 62;
   public marginImg: number = 2;
@@ -52,14 +53,14 @@ export class EventoListaComponent {
 
   public ngOnInit(): void {
     this.spinner.show();
-    this.getEventos();
+    this.carregarEventos();
   }
 
   public showImage() {
     this.showImg = !this.showImg;
   }
 
-  public getEventos (): void {
+  public carregarEventos (): void {
 
     this.eventoService.getEventos().subscribe({
       next: (_eventos: Evento[]) => {
@@ -74,13 +75,32 @@ export class EventoListaComponent {
     });
   }
 
-  openModal(template: TemplateRef<void>) {
+  openModal(event: any, template: TemplateRef<void>, eventoId: number) {
+    event.stopPropagation();
+    this.eventoId = eventoId;
     this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
   }
 
   confirm(): void {
     this.modalRef?.hide();
-    this.toastr.success('Evento excluído !', 'Exclusão de Evento')
+    this.spinner.show();
+
+    this.eventoService.deleteEvento(this.eventoId).subscribe(
+      (result: any) => {
+        console.log(result.message);
+        if (result.message === 'Excluído') {
+          this.toastr.success('Evento excluído !', 'Exclusão de Evento')
+          this.spinner.hide();
+          this.carregarEventos();
+        }
+      },
+      (error: any) => {
+        console.error(error);
+        this.toastr.error(`Erro ao tentar deletar o evento ${this.eventoId}`, 'Erro');
+        this.spinner.hide();
+      },
+      () => {this.spinner.hide()},
+    );
   }
 
   decline(): void {
