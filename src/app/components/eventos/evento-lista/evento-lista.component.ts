@@ -90,17 +90,17 @@ export class EventoListaComponent {
         console.log(result.message);
         if (result.message === 'Excluído') {
           this.toastr.success('Evento excluído !', 'Exclusão de Evento')
-          this.spinner.hide();
+        //  this.spinner.hide();
           this.carregarEventos();
         }
       },
       (error: any) => {
         console.error(error);
         this.toastr.error(`Erro ao tentar deletar o evento ${this.eventoId}`, 'Erro');
-        this.spinner.hide();
+      //  this.spinner.hide();
       },
-      () => {this.spinner.hide()},
-    );
+      //() => {this.spinner.hide()},
+    ).add(() => this.spinner.hide());
   }
 
   decline(): void {
