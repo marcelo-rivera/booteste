@@ -37,11 +37,20 @@ export class EventoDetalheComponent implements OnInit {
     return this.form.controls;
   }
 
-  get bsConfig(): any{   // pode tirar o get mas na pagina html
-                         // tem que chamar como bsConfig() dentro das aspas
+  get bsConfig(): any{   // pode tirar o get mas na pagina html                  // tem que chamar como bsConfig() dentro das aspas
     return {
       adaptivePosition: true,
       dateInputFormat: 'DD/MM/YYYY hh:mm a',
+      containerClass: 'theme-default',
+      showWeekNumbers: false
+    };
+  }
+
+  get bsConfigLote(): any{   // pode tirar o get mas na pagina html
+    // tem que chamar como bsConfig() dentro das aspas
+    return {
+      adaptivePosition: true,
+      dateInputFormat: 'DD/MM/YYYY',
       containerClass: 'theme-default',
       showWeekNumbers: false
     };
@@ -67,7 +76,7 @@ export class EventoDetalheComponent implements OnInit {
   public carregarEvento(): void {
     this.eventoId = this.activatedRouter.snapshot.paramMap.get('id');
 
-    if(this.eventoId != null || this.eventoId === 0){
+    if(this.eventoId != null && this.eventoId != 0){
       this.spinner.show();
 
       this.estadoSalvar = 'put';
@@ -132,9 +141,17 @@ export class EventoDetalheComponent implements OnInit {
       nome: [lote.nome,Validators.required],
       quantidade: [lote.quantidade,Validators.required],
       preco: [lote.preco,Validators.required],
-      dataInicio: [lote.dataInicio,Validators.required],
-      dataFim: [lote.dataFim,Validators.required]
+      dataInicio: [lote.dataInicio == null ? null : new Date(lote.dataInicio),Validators.required],
+      dataFim: [lote.dataFim == null ? null : new Date(lote.dataFim),Validators.required]
     });
+  }
+
+ // public mudarValorData(value: Date, indice: number, campo: string): void {
+ //   this.lotes.value[indice][campo] = value;
+ // }
+
+  public retornaTituloLote(nome: string): string {
+    return (nome === null || nome === '' ? 'Nome do Lote' : nome);
   }
 
   public resetForm(): void {
@@ -171,13 +188,14 @@ export class EventoDetalheComponent implements OnInit {
   }
 
   public salvarLotes(): void {
-    this.spinner.show();
+
     if(this.form.controls['lotes'].valid) {
+      this.spinner.show();
       this.loteService.saveLote(this.eventoId, this.form.value.lotes)
         .subscribe(
           () => {
             this.toastr.success('Lote salvo com sucesso','Sucesso!');
-            this.lotes.reset();
+            //this.lotes.reset();
           },
           (error: any) => {
             this.toastr.error('Erro ao tentar salvar lote', 'Erro');

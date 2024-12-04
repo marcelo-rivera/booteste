@@ -125,6 +125,7 @@
         <div formArrayName="lotes" *ngFor="let lote of lotes.controls; let i=index">
           <fieldset [formGroupName]="i" class="form-group">
             <legend class="d-flex justify-content-between capitalize">
+              {{retornaTituloLote($any(lotes.get(i+'.nome')).value)}}
               <button (click)="removerLote(template,i)" class="p-2 btn btn-sm btn-outline-warning mb-1 d-flex"
                 tooltip="Excluir Lote"
                 [adaptivePosition]="false"
@@ -149,25 +150,27 @@
             </div>
             <div class="form-group col-md-4">
               <label>Preço</label>
-              <input
+              <input [currencyMask]="{ prefix: 'R$ ', thousands: '.', decimal: ',', align: 'left' }"
               [ngClass]="cssValidator($any(lotes.get(i+'.preco')))"
-              type="text" currencyMask class="form-control" formControlName="preco" placeholder="R$ 0,00">
+              type="text"  class="form-control" formControlName="preco" placeholder="R$ 0,00">
             </div>
             <div class="form-group col-md-4">
               <label>Data Início</label>
               <input bsDatepicker
-              [bsConfig]="bsConfig"
+              [bsConfig]="bsConfigLote"
               [ngClass]="cssValidator($any(lotes.get(i+'.dataInicio')))"
               type="datetime" class="form-control" formControlName="dataInicio" placeholder="01/01/2019">
             </div>
             <div class="form-group col-md-4">
               <label>Data Fim</label>
               <input bsDatepicker
-              [bsConfig]="bsConfig"
+              [bsConfig]="bsConfigLote"
               [ngClass]="cssValidator($any(lotes.get(i+'.dataFim')))"
               type="datetime" class="form-control" formControlName="dataFim" placeholder="01/01/2019">
             </div>
+            <!--<p>Form value: {{form.controls['lotes'].value | json}}</p>-->
           </div>
+          <br>
         </fieldset>
       </div>
     </div>
@@ -182,7 +185,7 @@
     <button class="btn btn-outline-secondary mr-auto border">
       Cancelar Alteração
     </button>
-    <button (click)="salvarLotes()" class="btn btn-success">
+    <button [disabled]="!form.controls['lotes'].valid" (click)="salvarLotes()" class="btn btn-success">
       Salvar Lotes
     </button>
   </div>
