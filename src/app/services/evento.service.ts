@@ -9,7 +9,7 @@ import { take } from 'rxjs/operators';
 )
 export class EventoService { [key: string]: any  // [key: string]: any para poder usar as funções com string indexando
 
-  baseURL = 'http://localhost:5131/api/evento'
+  baseURL = 'https://localhost:5001/api/evento'
 
   constructor(private http: HttpClient) { }
 

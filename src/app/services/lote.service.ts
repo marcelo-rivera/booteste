@@ -9,7 +9,7 @@ import { Lote } from '@app/models/Lote';
 )
 export class LoteService { [key: string]: any  // [key: string]: any para poder usar as funções com string indexando
 
-  baseURL = 'http://localhost:5131/api/lote'
+  baseURL = 'https://localhost:5001/api/lote'
 
   constructor(private http: HttpClient) { }
 
