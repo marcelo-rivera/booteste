@@ -1,7 +1,7 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { EventInfoWrapper } from '@angular/core/primitives/event-dispatch';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Event, Router } from '@angular/router';
 
 import { Evento } from '@app/models/Evento';
 import { Lote } from '@app/models/Lote';
@@ -12,6 +12,7 @@ import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { AnyMxRecord } from 'node:dns';
 
 @Component({
   selector: 'app-evento-detalhe',
@@ -239,8 +240,9 @@ export class EventoDetalheComponent implements OnInit {
   onFileChange(ev: any): void {
     const reader = new FileReader();
 
-    reader.onload = (event: any) => this.imagemURL = event.target.result;
-
+    reader.onload = (event: any) => this.imagemURL = 'foto25.png'; //event.target.result;
+    this.imagemURL = 'foto25.png';
+    console.log(this.imagemURL);
     this.file = ev.target.files[0];
     reader.readAsDataURL(this.file);
 
@@ -252,7 +254,7 @@ export class EventoDetalheComponent implements OnInit {
     this.eventoService.postUpload(this.eventoId, this.file).subscribe(
       () => {
         //this.carregarEvento();// ---> não atualiza o nome da imagem e tava dando pau no invalid date
-        this.router.navigate(['eventos/detalhe/${this.eventoId}']);
+        this.router.navigate([`eventos/detalhe/${this.eventoId}`]);
         this.toastr.success('Imagem atualizada com Sucesso', 'Sucesso!');
       },
       (error: any) => {
