@@ -1,5 +1,4 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { EventInfoWrapper } from '@angular/core/primitives/event-dispatch';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Event, Router } from '@angular/router';
 
@@ -12,7 +11,7 @@ import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import { AnyMxRecord } from 'node:dns';
+
 
 @Component({
   selector: 'app-evento-detalhe',
@@ -24,7 +23,7 @@ export class EventoDetalheComponent implements OnInit {
   modalRef!: BsModalRef;
 
   eventoId: any;
-  //evento: Evento; ou
+  //evento: Evento;
   evento= {} as Evento;
   form!: FormGroup;
   estadoSalvar: string = 'post';
