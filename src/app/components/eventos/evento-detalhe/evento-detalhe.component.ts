@@ -243,5 +243,25 @@ export class EventoDetalheComponent implements OnInit {
 
     this.file = ev.target.files[0];
     reader.readAsDataURL(this.file);
+
+    this.uploadImagem();
+  }
+
+  uploadImagem(): void {
+    this.spinner.show();
+    this.eventoService.postUpload(this.eventoId, this.file).subscribe(
+      () => {
+        //this.carregarEvento();// ---> não atualiza o nome da imagem e tava dando pau no invalid date
+        this.router.navigate(['eventos/detalhe/${this.eventoId}']);
+        this.toastr.success('Imagem atualizada com Sucesso', 'Sucesso!');
+      },
+      (error: any) => {
+        this.toastr.error('Erro ao fazer upload de imagem', 'Erro!');
+        console.log(error);
+      }
+    ).add(() => this.spinner.hide());
+
+
   }
 }
+
