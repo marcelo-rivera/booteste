@@ -3,13 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Evento } from '../models/Evento';
 import { take } from 'rxjs/operators';
+import { environment } from '@environments/environment';
 
 @Injectable(
 //  {  providedIn: 'root'}   injeçao de dependencia (outra forma)
 )
 export class EventoService { [key: string]: any  // [key: string]: any para poder usar as funções com string indexando
 
-  baseURL = 'https://localhost:5001/api/evento'
+  baseURL = environment.apiURL + 'api/evento';
 
   constructor(private http: HttpClient) { }
 

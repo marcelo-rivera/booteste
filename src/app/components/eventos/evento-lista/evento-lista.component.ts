@@ -5,6 +5,7 @@ import { EventoService } from '@app/services/evento.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
+import { environment } from '@app/environment';
 
 @Component({
   selector: 'app-evento-lista',
@@ -60,6 +61,14 @@ export class EventoListaComponent {
     this.showImg = !this.showImg;
   }
 
+  public mostraImagem(imagemURL: string): string{
+
+    return (imagemURL != ''
+      ? `${environment.apiURL}resources/images/${imagemURL}`
+      : '/img/nophoto.jpg'
+    );
+  }
+
   public carregarEventos (): void {
 
     this.eventoService.getEventos().subscribe({
@@ -69,7 +78,10 @@ export class EventoListaComponent {
       },
       error: (error: any) => {
         this.spinner.hide();
-        this.toastr.error('Erro ao carregar os eventos','Erro!')
+        if (error.statusText != 'Unknown Error')
+        {
+          this.toastr.error('Erro ao carregar os eventos','Erro!');
+        }
       },
       complete: () => this.spinner.hide()
     });

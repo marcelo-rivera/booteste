@@ -43,7 +43,7 @@
       <td class="d-none d-md-table-cell">
         <!--<img *ngIf="showImg"-->
         <img [collapse] = "!showImg" [isAnimated]="true"
-        src="{{evento.imagemURL}}" alt="{{evento.imagemURL}}"
+        [src]="mostraImagem(evento.imagemURL!)" alt="{{evento.imagemURL}}"
         [style.width.px]="widthImg"
         [style.margin.px]="marginImg"
         >

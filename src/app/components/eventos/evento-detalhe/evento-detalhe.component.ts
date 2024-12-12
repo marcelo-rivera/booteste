@@ -12,6 +12,7 @@ import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from '@environments/environment';
 
 @Component({
   selector: 'app-evento-detalhe',
@@ -87,14 +88,21 @@ export class EventoDetalheComponent implements OnInit {
         (evento: Evento) => {
           this.evento= {...evento};
           this.form.patchValue(this.evento);
+          if (this.evento.imagemURL != ''){
+            this.imagemURL = environment.apiURL + 'resources/images/' + this.evento.imagemURL;
+
+          }
           this.evento.lotes.forEach(lote => {         //com este comando elimina a carregarlotes()
             this.lotes.push(this.criarLote(lote));
           });
           //this.carregarLotes();
         },
         (error: any) => {
-          this.toastr.error('Erro ao tentar carregar Evento','Erro!');
-          console.error(error);
+          this.spinner.hide();
+          if (error.statusText != 'Unknown Error')
+          {
+            this.toastr.error('Erro ao carregar os eventos','Erro!');
+          }
         },
       ).add(() => this.spinner.hide());
     }
@@ -126,7 +134,7 @@ export class EventoDetalheComponent implements OnInit {
       local: ['',Validators.required],
       dataEvento: ['',Validators.required],
       qtdPessoas: ['',[Validators.required,Validators.max(120000)]],
-      imagemURL: ['',Validators.required],
+      imagemURL: [''],
       telefone: ['',Validators.required],
       email: ['',[Validators.required,Validators.email]],
       lotes: this.fb.array([])
@@ -251,7 +259,7 @@ export class EventoDetalheComponent implements OnInit {
     this.spinner.show();
     this.eventoService.postUpload(this.eventoId, this.file).subscribe(
       () => {
-        //this.carregarEvento();// ---> não atualiza o nome da imagem e tava dando pau no invalid date
+        this.carregarEvento();// ---> não atualiza o nome da imagem e tava dando pau no invalid date
         this.router.navigate(['eventos/detalhe/${this.eventoId}']);
         this.toastr.success('Imagem atualizada com Sucesso', 'Sucesso!');
       },

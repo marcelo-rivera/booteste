@@ -11,7 +11,7 @@
         <label>Tema</label>
         <input type="text" class="form-control"
         [ngClass]="{'is-invalid': f.tema.errors && f.tema.touched}"
-        formControlName="tema" placeholder="Insira o Tema">
+        formControlName="tema" placeholder="Insira o Tema" [(ngModel)]="evento.tema">
         <div *ngIf="f.tema.errors?.required && f.tema.touched" class="invalid-feedback">
           tema é obrigatório
         </div>
@@ -29,7 +29,7 @@
         <label>Local</label>
         <input type="text" class="form-control"
         [ngClass]="cssValidator(f.local)"
-        formControlName="local" placeholder="Insira o local">
+        formControlName="local" placeholder="Insira o local" [(ngModel)]="evento.local">
         <div *ngIf="f.local.errors?.required && f.local.touched" class="invalid-feedback">
           local é obrigatório
         </div>
@@ -40,7 +40,7 @@
         <input type="datetime" class="form-control" bsDatepicker
         [bsConfig]="bsConfig"
         [ngClass]="cssValidator(f.dataEvento)"
-        formControlName="dataEvento" placeholder="">
+        formControlName="dataEvento" placeholder=""[(ngModel)]="evento.dataEvento">
         <div *ngIf="f.dataEvento.errors?.required && f.dataEvento.touched" class="invalid-feedback">
           Data/Hora é obrigatória
         </div>
@@ -52,7 +52,7 @@
         <label>Qtd Pessoas</label>
         <input type="number" class="form-control"
         [ngClass]="cssValidator(f.qtdPessoas)"
-        formControlName="qtdPessoas" placeholder="">
+        formControlName="qtdPessoas" placeholder="" [(ngModel)]="evento.qtdPessoas">
         <div *ngIf="f.qtdPessoas.errors?.required && f.qtdPessoas.touched" class="invalid-feedback">
           Qtde de pessoas é obrigatório
         </div>
@@ -60,20 +60,20 @@
           Qtde de pessoas acima do permitido
         </div>
       </div>
-      <div class="form-group col-md-2">
+      <div class="form-group col-md-4">
         <label>Telefone</label>
         <input type="text" class="form-control"
         [ngClass]="cssValidator(f.telefone)"
-        formControlName="telefone" placeholder="(000) 90000-0000">
+        formControlName="telefone" placeholder="(000) 90000-0000" [(ngModel)]="evento.telefone">
         <div *ngIf="f.telefone.errors?.required && f.telefone.touched" class="invalid-feedback">
           telefone é obrigatório
         </div>
       </div>
-      <div class="form-group col-md-4">
+      <div class="form-group col-md-6">
         <label>Email</label>
         <input type="text" class="form-control"
         [ngClass]="cssValidator(f.email)"
-        formControlName="email" placeholder="e-mail">
+        formControlName="email" placeholder="e-mail" [(ngModel)]="evento.email">
         <div *ngIf="f.email.errors?.required && f.email.touched" class="invalid-feedback">
           email é obrigatório
         </div>
@@ -81,7 +81,7 @@
           email inválido
         </div>
       </div>
-      <div class="form-group col-md-4">
+<!--      <div class="form-group col-md-4">
         <label>Imagem</label>
         <input type="text" class="form-control"
         [ngClass]="cssValidator(f.imagemURL)"
@@ -89,7 +89,7 @@
         <div *ngIf="f.imagemURL.errors?.required && f.imagemURL.touched" class="invalid-feedback">
           Imagem é obrigatória
         </div>
-      </div>
+      </div>-->
     </div>
 
   </div>
@@ -194,7 +194,7 @@
 </div>
     </div>
 
-    
+
   </div>
 
   <div class="col-md-4" *ngIf="modoEditar">
@@ -207,7 +207,7 @@
       <div class="card profile-card-2">
         <div class="card-img-block">
           <img class="image" [src]="imagemURL" class="img-fluid" (click)="file.click()" alt="Card image cap"
-          tooltip="Uplaod de Nova Imagem" [adaptivePosition]="false" placement="bottom" />
+          tooltip="Upload de Nova Imagem" [adaptivePosition]="false" placement="bottom" />
         </div>
         <div class="card-body pt-3">
           <h4>{{evento.tema}}</h4>
