@@ -12,6 +12,8 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 
+import { environment } from '@environments/environment';
+
 
 @Component({
   selector: 'app-evento-detalhe',
@@ -246,9 +248,7 @@ export class EventoDetalheComponent implements OnInit {
   onFileChange(ev: any): void {
     const reader = new FileReader();
 
-    reader.onload = (event: any) => this.imagemURL = 'foto25.png'; //event.target.result;
-    this.imagemURL = 'foto25.png';
-    console.log(this.imagemURL);
+    reader.onload = (event: any) => this.imagemURL = event.target.result;
     this.file = ev.target.files[0];
     reader.readAsDataURL(this.file);
 
