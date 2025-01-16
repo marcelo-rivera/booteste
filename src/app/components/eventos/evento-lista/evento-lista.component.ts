@@ -78,10 +78,10 @@ export class EventoListaComponent {
       },
       error: (error: any) => {
         this.spinner.hide();
-        if (error.statusText != 'Unknown Error')
-        {
-          this.toastr.error('Erro ao carregar os eventos','Erro!');
-        }
+      //  if (error.statusText != 'Unknown Error')
+      //  {
+      //    this.toastr.error('Erro ao carregar os eventos','Erro!');
+      //  }
       },
       complete: () => this.spinner.hide()
     });
