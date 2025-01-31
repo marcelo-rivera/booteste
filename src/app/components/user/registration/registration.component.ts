@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControlOptions, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ValidatorField } from '@app/helpers/ValidatorField';
+import { User } from '@app/models/Identity/User';
+import { AccountService } from '@app/services/account.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-registration',
@@ -9,14 +13,18 @@ import { ValidatorField } from '@app/helpers/ValidatorField';
 })
 export class RegistrationComponent implements OnInit {
 
-
+  user = {} as User;
   form!: FormGroup;
 
   get f(): any {
     return this.form.controls;
   }
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder,
+              private accountService: AccountService,
+              private router: Router,
+              private toastr: ToastrService
+  ) { }
 
   ngOnInit(): void {
     this.validation();
@@ -25,17 +33,29 @@ export class RegistrationComponent implements OnInit {
   public validation(): void {
 
     const formOptions: AbstractControlOptions = {
-      validators: ValidatorField.MustMatch('senha','senhaConfirm')
+      validators: ValidatorField.MustMatch('password','passwordConfirm')
     };
 
     this.form = this.fb.group({
-    firstName: ['',[Validators.required,Validators.minLength(8),Validators.maxLength(50)]],
-    lastName: ['',[Validators.required,Validators.minLength(8),Validators.maxLength(50)]],
+    primeiroNome: ['',[Validators.required,Validators.minLength(8),Validators.maxLength(50)]],
+    ultimoNome: ['',[Validators.required,Validators.minLength(8),Validators.maxLength(50)]],
     email: ['',[Validators.required,Validators.email]],
-    usuario: ['',[Validators.required,Validators.minLength(8),Validators.maxLength(16)]],
-    senha: ['',[Validators.required,Validators.minLength(8)]],
-    senhaConfirm: ['',[Validators.required]]
+    userName: ['',[Validators.required,Validators.minLength(8),Validators.maxLength(16)]],
+    password: ['',[Validators.required,Validators.minLength(8)]],
+    passwordConfirm: ['',[Validators.required]]
     }, formOptions);
+  }
+
+  register(): void {
+    this.user = {...this.form.value};
+    console.log(this.user);
+    this.accountService.register(this.user).subscribe(
+      () => {
+        this.router.navigateByUrl('/dashboard');
+        this.toastr.success('Cadastro realizado');
+      },
+      (error: any) => this.toastr.error(error.error)
+    );
   }
 
 }

@@ -36,6 +36,11 @@ import { UserComponent } from './components/user/user.component';
 import { LoginComponent } from './components/user/login/login.component';
 import { RegistrationComponent } from './components/user/registration/registration.component';
 import { LoteService } from './services/lote.service';
+import { AccountService } from './services/account.service';
+
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+
+import { JwtInterceptor } from './interceptors/jwt.interceptor';
 
 defineLocale('pt-br', ptBrLocale);
 
@@ -77,7 +82,12 @@ defineLocale('pt-br', ptBrLocale);
     NgxCurrencyDirective,
     BsDatepickerModule.forRoot()
   ],
-  providers: [EventoService, LoteService],   // injeção de dependencia, poderá ser usado em qquer modulo
+  providers: [
+    AccountService,
+    EventoService,
+    LoteService,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+  ],   // injeção de dependencia, poderá ser usado em qquer modulo
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

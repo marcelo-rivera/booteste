@@ -11,14 +11,16 @@ import { environment } from '@environments/environment';
 export class EventoService { [key: string]: any  // [key: string]: any para poder usar as funções com string indexando
 
   baseURL = environment.apiURL + 'api/evento';
-  tokenHeader = new HttpHeaders({'Authorization': 'Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIyIiwidW5pcXVlX25hbWUiOiJ5YXJhIiwibmJmIjoxNzM3MDMzNzMxLCJleHAiOjE3MzcxMjAxMzEsImlhdCI6MTczNzAzMzczMX0.W_xw2hIjTLsiKjn19iV6F2_YBpQVoGCL9E_DB2u152nh6Ku8GCutzLg74sIHIJRRLBZ1m6h5LotmuS4pBhZdaw'});
 
-  constructor(private http: HttpClient) { }
+  //tokenHeader = new HttpHeaders({'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user') || '{}').token}`});
+  //tokenHeader = new HttpHeaders({'Authorization': 'Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxMCIsInVuaXF1ZV9uYW1lIjoidHJ1amlsbG8iLCJuYmYiOjE3MzgzMjY3NTAsImV4cCI6MTczODQxMzE1MCwiaWF0IjoxNzM4MzI2NzUwfQ.XC1JeTPyGLVYtOUjXWWpmB5dseqyp6FQEtardvXtWfci_KlU0s4Q_gisLJcPxT4R_bVRC5sYHv0bwqZjpKzxLg'});
+  constructor(private http: HttpClient) {
 
+  }
 
   public getEventos(): Observable <Evento[]> {
     return this.http
-      .get<Evento[]>(this.baseURL,  { headers: this.tokenHeader})
+      .get<Evento[]>(this.baseURL)
       .pipe(take(1));
   }
 

@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Event, Router } from '@angular/router';
+import { ActivatedRoute,  Router } from '@angular/router';
 
 import { Evento } from '@app/models/Evento';
 import { Lote } from '@app/models/Lote';
@@ -91,7 +91,7 @@ export class EventoDetalheComponent implements OnInit {
           this.form.patchValue(this.evento);
           if (this.evento.imagemURL != ''){
             this.imagemURL = environment.apiURL + 'resources/images/' + this.evento.imagemURL;
-
+            //console.log(this.imagemURL)
           }
           this.evento.lotes.forEach(lote => {         //com este comando elimina a carregarlotes()
             this.lotes.push(this.criarLote(lote));
@@ -118,7 +118,7 @@ export class EventoDetalheComponent implements OnInit {
       },
       (error: any) => {
         this.toastr.error('Erro ao tentar carregar lotes','Erro');
-        console.error(error);
+        //console.error(error);
       }
     ).add(() => this.spinner.hide());
 
@@ -183,12 +183,15 @@ export class EventoDetalheComponent implements OnInit {
         :
           {id: this.evento.id, ... this.form.value};
 
+      console.log('x ' + this.estadoSalvar , this.evento);
+
       this.eventoService[this.estadoSalvar](this.evento).subscribe(
         (eventoRetorno: Evento) => {
           this.toastr.success('Evento salvo com Sucesso','Sucesso');
           this.router.navigate([`eventos/detalhe/${eventoRetorno.id}`])
         },
         (error: any) => {
+          console.log('y ' , this.evento);
           console.error(error);
           this.spinner.hide();
           this.toastr.error('Erro ao salvar evento', 'Erro')

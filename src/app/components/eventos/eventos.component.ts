@@ -11,8 +11,6 @@ export class EventosComponent implements OnInit {
 
   //
 
-  ngOnInit(): void {
-     console.log("teste git");
-  }
+  ngOnInit(): void { }
 
 }

@@ -4,9 +4,10 @@ import { environment } from '@app/environment';
 import { User } from '@app/models/Identity/User';
 import { map, Observable, ReplaySubject, take } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable(//{
+  //providedIn: 'root'
+//}
+)
 export class AccountService {
   private currentUserSource = new ReplaySubject<User>(1);
   currentUser$ = this.currentUserSource.asObservable();
@@ -40,6 +41,19 @@ export class AccountService {
   public setCurrentUser(user: User): void {
     localStorage.setItem('user', JSON.stringify(user));
     this.currentUserSource.next(user);
+  }
+
+  public register(model: any): Observable<User>{
+    return this.http.post<User>(this.baseUrl + 'register', model).pipe(
+      take(1),
+      map((response: User) => {
+        const user = response;
+        if(user){
+          this.setCurrentUser(user);
+        }
+        return user;
+      })
+    );
   }
 
 }
