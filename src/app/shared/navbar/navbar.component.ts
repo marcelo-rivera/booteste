@@ -20,7 +20,14 @@ export class NavbarComponent implements OnInit {
 
   logout() {
     this.accountService.logout();
+    //window.location.reload(); 
+    //this.sleep(1000);
     this.router.navigateByUrl('/user/login');
+
+  }
+
+  sleep(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   showMenu(): boolean {
