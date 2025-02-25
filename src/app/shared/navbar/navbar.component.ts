@@ -20,10 +20,7 @@ export class NavbarComponent implements OnInit {
 
   logout() {
     this.accountService.logout();
-    //window.location.reload(); 
-    //this.sleep(1000);
     this.router.navigateByUrl('/user/login');
-
   }
 
   sleep(ms: number) {
@@ -31,7 +28,7 @@ export class NavbarComponent implements OnInit {
   }
 
   showMenu(): boolean {
-    console.log(this.router.url);
-    return this.router.url !== 'user/login';
+    //console.log("url" + this.router.url);
+    return this.router.url !== '/user/login';
   }
 }

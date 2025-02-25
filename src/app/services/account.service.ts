@@ -9,7 +9,7 @@ import { map, Observable, ReplaySubject, take } from 'rxjs';
 //}
 )
 export class AccountService {
-  private currentUserSource = new ReplaySubject<User>(1);
+  private currentUserSource = new ReplaySubject<User | null>(1);
   currentUser$ = this.currentUserSource.asObservable();
 
   public userNull = new User();
@@ -34,8 +34,8 @@ export class AccountService {
 
   logout(): void {
     localStorage.removeItem('user');
-    this.currentUserSource.next(this.userNull);
-    this.currentUserSource.complete();
+    this.currentUserSource.next(null);
+    //this.currentUserSource.complete();
   }
 
   public setCurrentUser(user: User): void {
